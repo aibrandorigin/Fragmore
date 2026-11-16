@@ -1,0 +1,673 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net (Default-Deny Catch-All)
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper primitives
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 160 && id.matches('^[a-zA-Z0-9_.\\-:]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function isValidProduct(data) {
+      return data.id is string && data.id.size() <= 160 &&
+             data.name is string && data.name.size() <= 300 &&
+             data.slug is string && data.slug.size() <= 200 &&
+             data.variants is list;
+    }
+
+    function isValidOrder(data) {
+      return data.orderNumber is string && data.orderNumber.size() <= 128 &&
+             data.items is list &&
+             data.totalAmount is number &&
+             data.totalAmount >= 0;
+    }
+
+    function isValidReview(data) {
+      return (data.customerName is string || data.authorName is string) &&
+             data.rating is number &&
+             data.rating >= 1 &&
+             data.rating <= 5 &&
+             data.title is string;
+    }
+
+    // Core Storefront Collections
+    match /products/{docId} {
+      allow list: if true;
+      allow get: if isValidId(docId);
+      allow create, update: if isValidId(docId) && isValidProduct(incoming());
+      allow delete: if isValidId(docId);
+    }
+
+    match /orders/{docId} {
+      allow list: if true;
+      allow get: if isValidId(docId);
+      allow create, update: if isValidId(docId) && isValidOrder(incoming());
+      allow delete: if isValidId(docId);
+    }
+
+    match /customers/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /reviews/{docId} {
+      allow list: if true;
+      allow get: if isValidId(docId);
+      allow create, update: if isValidId(docId) && isValidReview(incoming());
+      allow delete: if isValidId(docId);
+    }
+
+    match /coupons/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /influencers/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /abandoned_carts/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /cms_settings/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /cms/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /audit_logs/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /campaigns/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /returns_refunds/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /returns/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /back_in_stock/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /users/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    // Rewards, Smart Wallet, Loyalty & Gift Cards Collections
+    match /rewards_program_config/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /customer_wallets/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /wallet_credit_buckets/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /wallet_transactions/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /loyalty_tiers/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /loyalty_accounts/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /loyalty_points_ledger/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /gift_cards/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /gift_card_transactions/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /corporate_gift_card_batches/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /referral_conversions/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /occasion_reward_logs/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /checkout_reward_reservations/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /rewards_adjustment_approvals/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /rewards_fraud_flags/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    // Automation Center, Inventory & Omnichannel Intelligence Collections
+    match /automation_workflows/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /automation_events/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /automation_jobs/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /automation_approvals/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /automation_ai_recommendations/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /automation_scheduled_tasks/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /automation_settings/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /inventory_ledger/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /production_batches/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /ops_tasks_and_alerts/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /discovery_journeys/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /loyalty_programs_and_ledger/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /influencer_content_deliverables/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /resellers_and_b2b_orders/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /analytics_tracking_ledger/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /ai_marketing_intelligence_ledger/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /support_review_retention_ledger/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /supplier_purchase_orders/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /procurement_suppliers/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    // AI CMO 3.0 Collections
+    match /ai_cmo_feature_flags/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /ai_cmo_conversations/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /ai_cmo_messages/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /ai_cmo_plans/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /ai_cmo_action_approvals/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /ai_cmo_audit_observability_logs/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /ai_cmo_saved_prompts/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /ai_cmo_durable_memory/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /ai_cmo_scheduled_intelligence_runs/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /ai_cmo_intelligence_governance_settings/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    // FRAGMORÉ BUSINESS OS ERP Collections
+    match /erp_organizations/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_departments/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_roles/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_permissions/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_user_access/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_warehouses/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_materials/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_goods_receipts/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_stock_lots/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_formulations/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_formulation_versions/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_samples/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_qc_records/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_finished_goods/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_leads/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_proposals/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_quotations/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_invoices/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_credit_notes/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_payments/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_accounting_journals/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_marketing_workspace/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_employees/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_interns/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_tasks/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_approvals/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_attachments/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_notifications/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_sequences/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_purchase_requisitions/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_rfqs/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_supplier_quotations/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_vendor_invoices/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_debit_notes/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_stock_movements/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_batch_events/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_once_editions/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_once_serial_numbers/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_qc_checklists/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_sample_events/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_pricing_audit_logs/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_deal_activities/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_chart_of_accounts/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_hsn_sac_master/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_delivery_challans/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_sales_returns/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_sales_debit_notes/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_expenses_and_petty_cash/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_bank_statements/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_accountant_signoffs/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_agency_profiles/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_agency_staff/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_creative_revisions/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_agency_invoices/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_intern_attendance/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_intern_submissions/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_intern_evaluations/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_task_comments/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_export_jobs/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_alert_rules/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /erp_ai_action_confirmations/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    // Integrations, Analytics & Health Probe
+    match /integrations/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /analytics/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /visitors/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+
+    match /test/{docId} {
+      allow list: if true;
+      allow get, create, update, delete: if isValidId(docId);
+    }
+  }
+}

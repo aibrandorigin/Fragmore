@@ -1,0 +1,295 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-display: 'Cinzel', 'Cormorant Garamond', serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Shared Semantic White Studio Theme Tokens */
+  --color-bg-main: var(--bg-main);
+  --color-surface-white: var(--bg-surface);
+  --color-surface-ivory: var(--bg-secondary);
+  --color-text-main: var(--text-main);
+  --color-text-secondary: var(--text-secondary);
+  --color-accent-gold: var(--accent-gold);
+  --color-border-subtle: var(--border-subtle);
+
+  /* Legacy Alias Tokens Mapped to White Studio Theme */
+  --color-gold-300: var(--accent-gold);
+  --color-gold-400: var(--accent-gold);
+  --color-gold-500: var(--accent-gold);
+  --color-gold-600: var(--accent-gold);
+  --color-midnight-950: var(--bg-main);
+  --color-midnight-900: var(--bg-surface);
+  --color-midnight-800: var(--bg-secondary);
+  --color-midnight-700: var(--border-subtle);
+  --color-ivory: var(--text-main);
+  --color-ivory-light: var(--bg-surface);
+}
+
+/* ==========================================================
+   COMPLETE PREMIUM WHITE STUDIO THEME TOKENS
+   ========================================================== */
+:root,
+html,
+html[data-theme="light"],
+html[data-theme="dark"],
+html.dark {
+  --bg-main: #FAF8F4;
+  --bg-surface: #FFFFFF;
+  --bg-secondary: #F1EDE5;
+  --text-main: #24211D;
+  --text-secondary: #686158;
+  --border-subtle: #DED7CC;
+  --accent-gold: #9A783E;
+  --fragrance-accent: #9A783E;
+  --studio-key-light: rgba(255, 255, 255, 0.95);
+  --studio-side-fill: rgba(241, 237, 229, 0.78);
+  --studio-shadow: rgba(36, 33, 29, 0.20);
+  color-scheme: light;
+}
+
+@layer base {
+  html, body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    overflow-x: clip;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: 0.04em;
+  }
+
+  .font-serif {
+    font-family: var(--font-serif);
+  }
+
+  input, select, textarea {
+    color: var(--text-main);
+  }
+}
+
+/* ==========================================================
+   COMPREHENSIVE WHITE STUDIO THEME NORMALIZATION
+   Applies across Storefront, PDP, Cart, Checkout, Auth, Modals & Admin
+   ========================================================== */
+.storefront-theme-scope {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+}
+
+/* 1. Primary Page / Canvas Backgrounds -> #FAF8F4 */
+.storefront-theme-scope [class*="bg-[#0"]:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-stone-950:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-stone-950\/95:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-stone-950\/90:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-stone-950\/85:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-stone-950\/80:not(.dark-luxury-stage):not(.dark-luxury-stage *) {
+  background-color: var(--bg-main) !important;
+  background-image: none !important;
+}
+
+/* 2. Cards, Modals, Panels, Tables, Inputs -> #FFFFFF */
+.storefront-theme-scope [class*="bg-[#1"]:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-stone-900:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-stone-900\/95:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-stone-900\/90:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-stone-900\/80:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-stone-900\/70:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-stone-900\/60:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-stone-900\/50:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-stone-900\/40:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-stone-900\/30:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-stone-800:not(.dark-luxury-stage):not(.dark-luxury-stage *) {
+  background-color: var(--bg-surface) !important;
+  background-image: none !important;
+}
+
+/* 3. Secondary Ivory Surfaces, Pills & Subtle Containers -> #F1EDE5 */
+.storefront-theme-scope .bg-black:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-black\/20:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-black\/30:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-black\/35:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-black\/40:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-black\/50:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-black\/60:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-black\/70:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-white\/5:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-white\/10:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-white\/15:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-white\/20:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-white\/\[0\.01\]:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-white\/\[0\.02\]:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-white\/\[0\.03\]:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-white\/\[0\.04\]:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-white\/\[0\.05\]:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-white\/\[0\.06\]:not(.dark-luxury-stage):not(.dark-luxury-stage *) {
+  background-color: var(--bg-secondary) !important;
+}
+
+/* Modal Backdrops: Soft warm studio scrim instead of pitch black */
+.storefront-theme-scope .fixed.inset-0.bg-black\/80,
+.storefront-theme-scope .fixed.inset-0.bg-black\/85,
+.storefront-theme-scope .fixed.inset-0.bg-black\/90,
+.storefront-theme-scope .fixed.inset-0.bg-black\/75,
+.storefront-theme-scope .fixed.inset-0.bg-black\/70,
+.storefront-theme-scope .fixed.inset-0.bg-black\/40 {
+  background-color: rgba(36, 33, 29, 0.38) !important;
+}
+
+/* 4. Dark Gradients -> Clean White/Ivory Studio Surfaces */
+.storefront-theme-scope [class*="from-[#0"]:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope [class*="from-[#1"]:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope [class*="via-[#0"]:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope [class*="via-[#1"]:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope [class*="to-[#0"]:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope [class*="to-[#1"]:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .from-stone-950:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .from-stone-900:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .to-stone-950:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .to-stone-900:not(.dark-luxury-stage):not(.dark-luxury-stage *) {
+  background-image: linear-gradient(180deg, #FFFFFF 0%, #F1EDE5 100%) !important;
+  background-color: var(--bg-surface) !important;
+}
+
+/* 5. Primary Text -> #24211D */
+.storefront-theme-scope .text-white:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-white\/95:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-white\/90:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-stone-100:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-stone-200:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-\[\#F3EFE6\]:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-\[\#E5E5EB\]\/90:not(.dark-luxury-stage):not(.dark-luxury-stage *) {
+  color: var(--text-main) !important;
+}
+
+/* 6. Secondary / Muted Text -> #686158 */
+.storefront-theme-scope .text-stone-300:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-stone-400:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-stone-500:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-white\/80:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-white\/75:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-white\/70:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-white\/60:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-white\/50:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-white\/40:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-white\/30:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-white\/20:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-\[\#A3A3B0\]:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-\[\#D1CECB\]:not(.dark-luxury-stage):not(.dark-luxury-stage *) {
+  color: var(--text-secondary) !important;
+}
+
+/* Preserve light text inside solid dark/gold/emerald/rose primary buttons & active tabs */
+.storefront-theme-scope .bg-\[\#24211D\]:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-\[\#24211D\]:not(.dark-luxury-stage):not(.dark-luxury-stage *) *,
+.storefront-theme-scope .bg-\[\#9A783E\]:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-\[\#9A783E\]:not(.dark-luxury-stage):not(.dark-luxury-stage *) *,
+.storefront-theme-scope .bg-\[var\(--text-main\)\]:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .bg-\[var\(--text-main\)\]:not(.dark-luxury-stage):not(.dark-luxury-stage *) *,
+.storefront-theme-scope .bg-emerald-500,
+.storefront-theme-scope .bg-emerald-600,
+.storefront-theme-scope .bg-rose-500,
+.storefront-theme-scope .bg-rose-600 {
+  color: #FAF8F4 !important;
+}
+
+.storefront-theme-scope .placeholder-white\/40::placeholder,
+.storefront-theme-scope .placeholder-white\/30::placeholder,
+.storefront-theme-scope .placeholder\:text-white\/30::placeholder,
+.storefront-theme-scope .placeholder\:text-white\/40::placeholder,
+.storefront-theme-scope .placeholder-stone-500::placeholder {
+  color: rgba(104, 97, 88, 0.6) !important;
+}
+
+/* 7. Borders & Dividers -> #DED7CC */
+.storefront-theme-scope [class*="border-white\/"]:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .border-stone-800:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .border-stone-700:not(.dark-luxury-stage):not(.dark-luxury-stage *) {
+  border-color: var(--border-subtle) !important;
+}
+
+.storefront-theme-scope .divide-white\/5:not(.dark-luxury-stage):not(.dark-luxury-stage *) > :not([hidden]) ~ :not([hidden]),
+.storefront-theme-scope .divide-white\/10:not(.dark-luxury-stage):not(.dark-luxury-stage *) > :not([hidden]) ~ :not([hidden]) {
+  border-color: var(--border-subtle) !important;
+}
+
+/* 8. Champagne Gold Accents -> #9A783E */
+.storefront-theme-scope .text-amber-200:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-amber-200\/90:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-amber-300:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-amber-400:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-amber-400\/90:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-amber-500\/80:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-\[\#D4AF37\]:not(.dark-luxury-stage):not(.dark-luxury-stage *),
+.storefront-theme-scope .text-\[\#E5C378\]:not(.dark-luxury-stage):not(.dark-luxury-stage *) {
+  color: var(--accent-gold) !important;
+}
+
+/* Custom Luxury Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-gold);
+}
+
+/* Hide scrollbar for category tabs / clean horizontal lists */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Print styles for downloadable tax invoice */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* ==========================================================
+   LUMINA-INSPIRED VERTICAL SLAT TRANSITION & DARK GALLERY STRIP
+   ========================================================== */
+.storefront-theme-scope .lumina-intro-blank-curtain {
+  background-color: #080807 !important;
+}
+
+.storefront-theme-scope .lumina-curtain-slat-even {
+  background-color: #0A0A09 !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.storefront-theme-scope .lumina-curtain-slat-odd {
+  background-color: #141311 !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.storefront-theme-scope .lumina-dark-gallery-strip {
+  background-color: #0E0D0C !important;
+}
+
